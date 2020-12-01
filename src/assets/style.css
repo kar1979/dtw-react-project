@@ -1,0 +1,21 @@
+header {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0;
+}
+
+.btn_add_post{
+    width: 100%;
+    text-align: right;
+}
+
+.posts {
+    margin: 2em 0;
+}
+
+.MuiTouchRipple-root {
+    width: 0;
+    height: 0;
+}
