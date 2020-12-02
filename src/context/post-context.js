@@ -18,6 +18,16 @@ const initialState = {
 
 const reducer = (state, action) => {
   switch (action.type) {
+    case "ADD_POST":
+      let newPost = state.posts;
+      newPost.push({
+        id: action.payload.id,
+        title: action.payload.title,
+        description: action.payload.description,
+        category: action.payload.category,
+        img: action.payload.img
+      })
+      return {...state, posts: newPost }
     case "DELETE_POST":
       return { ...state, posts: deletePost(action.payload) }
     default:

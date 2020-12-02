@@ -46,7 +46,7 @@ export default function CardPost(props) {
       <div className="post_bottom">
         <p><strong>{props.postInfo.category}</strong></p>
         <div>
-          <IconButton aria-label="picture" component="span">
+          <IconButton aria-label="picture" component="span" onClick={props.onClick}>
             <EditIcon />
           </IconButton>
           <IconButton component="span" onClick={toDelete}>

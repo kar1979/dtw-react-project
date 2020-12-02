@@ -1,18 +1,10 @@
-import React
-//{useState}
-from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Fab from '@material-ui/core/Fab';
 import EditIcon from '@material-ui/icons/Edit';
 
 export default function FloatActionBtn(props) {
   const classes = useStyles();
-  //const [ open, setOpen ] = useState(false);
-
-  /*const handleClick = () => {
-    setOpen(true);
-    console.log(open);
-  };*/
   
   return (
     <Fab

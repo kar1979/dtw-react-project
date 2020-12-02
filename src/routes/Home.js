@@ -9,12 +9,11 @@ import { PostContext } from '../context/post-context';
 
 export default function Home() {
   const classes = useStyles();
-  
   const [infoPost] = useContext(PostContext);
   const [ filter, setFilter ] = useState('all');
   const [ selectedPost, setPosts ] = useState(infoPost.posts);
-  console.log(infoPost.posts);
   const [ open, setOpen ] = useState(false);
+  const [ isEdit, setIsEdit ] = useState(false);
 
   const initialPosts = infoPost.posts;
 
@@ -40,18 +39,23 @@ export default function Home() {
     );
   };
   
-  const handleOpenModal = () => {
+  const handleModalAddPost = () => {
     setOpen(true);
     console.log(open);
+  };
+
+  const handleModalEditPost = () => {
+    setOpen(true);
+    setIsEdit(true);
   };
   console.log(open);
   return (
     <div className={classes.root}>
       <div className="btn_add_post">
-        <FloatActionBtn onClick={handleOpenModal}/>
-        <Modal open={open}/>
+        <FloatActionBtn onClick={handleModalAddPost} />
+        <Modal modalState={open} totalPost={selectedPost} isEdit={isEdit}/>
       </div>
-      <FiltersCatego onChange={handleFilter}/>
+      <FiltersCatego onChange={handleFilter} />
       <Grid container className="posts">
         {selectedPost.map((post) => (
           <Grid
@@ -62,7 +66,7 @@ export default function Home() {
               backgroundImage: `url(${post.img})`
             }}
           >
-            <CardPost postInfo={post}/>
+            <CardPost postInfo={post} onClick={handleModalEditPost} />
           </Grid>
         ))}
       </Grid>

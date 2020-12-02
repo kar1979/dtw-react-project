@@ -15,7 +15,6 @@ export default function PostsComments(props) {
 
   const selectComments = (idCurrent) => {
     let tempComments = [];
-
     tempComments = comments.comments.filter(comment => (
       comment.idPost === idCurrent
     ));

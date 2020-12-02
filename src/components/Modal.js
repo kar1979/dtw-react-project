@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { makeStyles } from '@material-ui/core/styles'
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
@@ -8,30 +8,63 @@ import TextField from '@material-ui/core/TextField';
 import { InputAdornment, MenuItem } from '@material-ui/core';
 import LinkIcon from '@material-ui/icons/Link';
 import Button from '@material-ui/core/Button';
+import { PostContext } from '../context/post-context';
 
 export default function Modal(props) {
   const classes = useStyles();
-  const [ modalState, setClose ] = useState(props.open);
+  const [ postTitle, setPostTitle ] = useState('');
+  const [ postDescription, setPostDescription ] = useState('');
   const [ catego, setCategory ] = useState('travel');
+  const [ postImg, setPostImg ] = useState('');
+  const [ state, dispatch ] = useContext(PostContext);
 
-  const handleClose = () => {
-    setClose(false);
+  const [ isOpen, setIsOpen ] = useState(false);
+
+  const newIdPost = props.totalPost.length + 1;
+  let modalState = isOpen === false ? props.modalState : !isOpen;
+  
+
+  function onSubmit() {
+    dispatch({
+      type: "ADD_POST", 
+      payload: {
+        id: newIdPost,
+        title: postTitle,
+        description: postDescription,
+        category: catego,
+        img: postImg
+      }
+    });
+  }
+
+  const handleCloseModal = () => {
+    setIsOpen(true);
   };
-  console.log('Desde props: ', props.open);
-  console.log('Estado del hook: ', modalState);
 
+  const handleChangeTitle = (event) => {
+    setPostTitle(event.target.value);
+  };
+
+  const handleChangeDescription = (event) => {
+    setPostDescription(event.target.value);
+  };
 
   const handleChangeCategory = (event) => {
     setCategory(event.target.value);
   };
+
+  const handleChangeImg = (event) => {
+    setPostImg(event.target.value);
+  };
+  console.log(modalState);
   return (
     <div>
-      <Dialog open={props.open} onClose={handleClose} aria-labelledby="form-dialog-title" className={classes.modal}>
-        <DialogTitle id="form-dialog-title">Create Post</DialogTitle>
+      <Dialog open={modalState} onClose={handleCloseModal} aria-labelledby="form-dialog-title" className={classes.modal}>
+        <DialogTitle id="form-dialog-title">{ props.isEdit ? 'Edit Post' : 'Create Post' }</DialogTitle>
         <DialogContent>
           <form>
-            <TextField autoFocus id="title" label="Title" fullWidth/>
-            <TextField id="description" label="Description" fullWidth/>
+            <TextField autoFocus id="title" label="Title" fullWidth onChange={handleChangeTitle}/>
+            <TextField id="description" label="Description" fullWidth onChange={handleChangeDescription} />
             <TextField id="category" select label="Category" fullWidth value={catego} onChange={handleChangeCategory}>
               {categories.map((category) => (
                 <MenuItem key={category.value} value={category.value}>
@@ -39,7 +72,7 @@ export default function Modal(props) {
                 </MenuItem>
               ))}
             </TextField>
-            <TextField id="url" label="URL of the image" type="url" fullWidth
+            <TextField id="url" label="URL of the image" type="url" fullWidth onChange={handleChangeImg}
               InputProps={{
                 endAdornment: (
                   <InputAdornment position="end">
@@ -51,10 +84,10 @@ export default function Modal(props) {
           </form>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>
+          <Button onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="contained" color="primary" onClick={handleClose}>
+          <Button variant="contained" color="primary" onClick={onSubmit}>
             Save
           </Button>
         </DialogActions>
