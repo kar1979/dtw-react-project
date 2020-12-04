@@ -25,16 +25,29 @@ export default function Modal(props) {
   
 
   function onSubmit() {
-    dispatch({
-      type: "ADD_POST", 
-      payload: {
-        id: newIdPost,
-        title: postTitle,
-        description: postDescription,
-        category: catego,
-        img: postImg
-      }
-    });
+    if (props.isEdit) {
+      dispatch({
+        type: 'EDIT_POST',
+        payload: {
+          id: 2,
+          title: postTitle,
+          description: postDescription,
+          category: catego,
+          img: postImg
+        }
+      });
+    } else {
+      dispatch({
+        type: "ADD_POST",
+        payload: {
+          id: newIdPost,
+          title: postTitle,
+          description: postDescription,
+          category: catego,
+          img: postImg
+        }
+      });
+    }
   }
 
   const handleCloseModal = () => {

@@ -27,7 +27,26 @@ const reducer = (state, action) => {
         category: action.payload.category,
         img: action.payload.img
       })
-      return {...state, posts: newPost }
+      return { ...state, posts: newPost }
+
+    case "EDIT_POST":
+      let tempPosts = state.posts;
+      const postToEdit = tempPosts.findIndex(post => post.id === action.payload.id);
+
+      tempPosts.fill(
+        {
+          id: action.payload.id,
+          title: action.payload.title,
+          description: action.payload.description,
+          category: action.payload.category,
+          img: action.payload.img
+        },
+        postToEdit,
+        postToEdit + 1
+      );
+      console.log('New array: ', tempPosts );
+      return { ...state, posts: tempPosts }
+
     case "DELETE_POST":
       return { ...state, posts: deletePost(action.payload) }
     default:

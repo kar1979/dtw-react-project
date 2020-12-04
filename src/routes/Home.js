@@ -41,7 +41,7 @@ export default function Home() {
   
   const handleModalAddPost = () => {
     setOpen(true);
-    console.log(open);
+    console.log('', open);
   };
 
   const handleModalEditPost = () => {

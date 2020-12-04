@@ -19,7 +19,7 @@ export default function CardPost(props) {
 
   function toDelete() {
     dispatch({
-      type: "DELETE_POST",
+      type: 'DELETE_POST',
       payload: {
         idPost: props.postInfo.id
       }
