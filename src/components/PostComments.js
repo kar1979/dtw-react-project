@@ -4,11 +4,14 @@ import { Typography } from '@material-ui/core';
 import Card from '@material-ui/core/Card';
 import AccountCircleRoundedIcon from '@material-ui/icons/AccountCircleRounded';
 import PostInputComment from './PostInputComment';
-import { CommentContext } from '../context/comment-context';
+// import { CommentContext } from '../context/comment-context';
+
+import { useSelector } from 'react-redux';
 
 export default function PostsComments(props) {
   const classes = useStyles();
-  const [comments] = useContext(CommentContext);
+  // const [comments] = useContext(CommentContext);
+  const comments = useSelector( state => state.comment);
 
   const postId = props.idPost;
   let postComments = {  };

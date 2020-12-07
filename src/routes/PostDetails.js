@@ -6,15 +6,18 @@ import BackToHomeBtn from '../components/BackToHomeBtn';
 import PostsTitle from '../components/PostTitle';
 import PostsComments from '../components/PostComments';
 
+import { useDispatch, useSelector } from 'react-redux';
+
 export default function PostsDetails() {
   const classes = useStyles();
-  const [post] = useContext(PostContext);
+  // const [posts] = useContext(PostContext);
+  const posts = useSelector( state => state.post);
   const location = useLocation();
   const actualRoute = location.pathname;
   const postId = Number(actualRoute.slice(actualRoute.lastIndexOf('/') +1, actualRoute.length));
   let actualPost = {};
 
-  post.posts.forEach(post => {
+  posts.posts.forEach(post => {
     if (post.id === postId) {
       actualPost = post;
     }

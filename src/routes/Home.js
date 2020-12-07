@@ -5,21 +5,31 @@ import Modal from '../components/Modal';
 import { makeStyles } from '@material-ui/core/styles';
 import FloatActionBtn from '../components/FloatActionBtn';
 import Grid from '@material-ui/core/Grid';
-import { PostContext } from '../context/post-context';
+// import { PostContext } from '../context/post-context';
+
+import { useSelector } from 'react-redux';
 
 export default function Home() {
+  const postFromStore = useSelector( state => state.post.posts);
+
   const classes = useStyles();
-  const [infoPost] = useContext(PostContext);
+  // const [infoPost] = useContext(PostContext);
   const [ filter, setFilter ] = useState('all');
-  const [ selectedPost, setPosts ] = useState(infoPost.posts);
+  // const [ selectedPost, setPosts ] = useState(infoPost.posts);
+  
+  const [ selectedPost, setPosts ] = useState(postFromStore);
   const [ open, setOpen ] = useState(false);
   const [ isEdit, setIsEdit ] = useState(false);
 
-  const initialPosts = infoPost.posts;
+  // const initialPosts = infoPost.posts;
+  const initialPosts = postFromStore;
 
-  useEffect( () => {
+  /*useEffect( () => {
     setPosts(infoPost.posts);
-  }, [infoPost.posts])
+  }, [infoPost.posts])*/
+  useEffect( () => {
+    setPosts(postFromStore);
+  }, [postFromStore])
   
   const handleFilter = (event, newFilter) => {
     let tempPosts;
@@ -34,21 +44,23 @@ export default function Home() {
   };
   
   const performFilter = (newFilter) => {
-    return infoPost.posts.filter(post =>
+    /*return infoPost.posts.filter(post =>
+      post.category.indexOf(newFilter) !== -1
+    );*/
+    return postFromStore.filter(post =>
       post.category.indexOf(newFilter) !== -1
     );
   };
   
   const handleModalAddPost = () => {
     setOpen(true);
-    console.log('', open);
   };
 
   const handleModalEditPost = () => {
     setOpen(true);
     setIsEdit(true);
   };
-  console.log(open);
+  
   return (
     <div className={classes.root}>
       <div className="btn_add_post">

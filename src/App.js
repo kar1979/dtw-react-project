@@ -1,6 +1,4 @@
-import './assets/style.css'
-import { PostContextProvider } from './context/post-context';
-import { CommentContextProvider } from './context/comment-context';
+import './assets/style.css';
 import SiteTitle from './components/SiteTitle';
 import Home from './routes/Home';
 import PostsDetails from './routes/PostDetails';
@@ -12,6 +10,9 @@ import {
   Route
 } from 'react-router-dom';
 
+import { Provider } from 'react-redux';
+import store from './redux/store'
+
 export default function App() {
   return (
     <Router>
@@ -20,16 +21,18 @@ export default function App() {
       </header>
 
       <Switch>
-        <PostContextProvider>
-          <CommentContextProvider>
+        <Provider store={store}>
+        {/* <PostContextProvider> */}
+          {/* <CommentContextProvider> */}
             <Route path="/" exact>
               <Home />
             </Route>
             <Route path="/details/:id">
               <PostsDetails />
             </Route>
-          </CommentContextProvider>
-        </PostContextProvider>
+          {/* </CommentContextProvider> */}
+        {/* </PostContextProvider> */}
+        </Provider>
       </Switch>
       <Footer />
     </Router>

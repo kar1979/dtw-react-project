@@ -2,14 +2,18 @@ import React, { useContext, useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
-import { CommentContext } from '../context/comment-context';
+// import { CommentContext } from '../context/comment-context';
+
+import { useDispatch } from 'react-redux';
+import { addNewComment } from '../redux/actions'
 
 export default function PostInputComment(props) {
   const classes = useStyles();
-  const [ state, dispatch ] = useContext(CommentContext);
+  // const [ state, dispatch ] = useContext(CommentContext);
+  const dispatch = useDispatch();
   const [ newComment, setNewComment ] = useState('');
 
-  function onSubmit() {
+  /*function onSubmit() {
     dispatch({
       type: "ADD_COMMENT",
       payload: {
@@ -19,6 +23,18 @@ export default function PostInputComment(props) {
         comment: newComment
       }
     });
+    onReset();
+  }*/
+
+  const onSubmit = () => {
+    dispatch(addNewComment(
+      {
+        idPost: Number(props.idPost),
+        idCom: Date.now(),
+        user: 'Karla Dávalos',
+        comment: newComment
+      }
+    ));
     onReset();
   }
 

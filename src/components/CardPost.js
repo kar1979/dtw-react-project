@@ -6,25 +6,32 @@ import ForumIcon from '@material-ui/icons/Forum';
 import IconButton from '@material-ui/core/IconButton';
 import EditIcon from '@material-ui/icons/Edit';
 import Delete from '@material-ui/icons/Delete';
-import { CommentContext } from '../context/comment-context';
-import { PostContext } from '../context/post-context';
+// import { CommentContext } from '../context/comment-context';
+// import { PostContext } from '../context/post-context';
+
+import { useDispatch, useSelector } from 'react-redux';
+import { deletePost } from '../redux/actions';
 
 export default function CardPost(props) {
+  const dispatch = useDispatch();
+  const commentsFromStore = useSelector( state => state.comment.comments);
+  
   const classes = useStyles();
   const history = useHistory();
-  const [comments] = useContext(CommentContext);
-  const [state, dispatch] = useContext(PostContext);
-  let totalComments = comments.comments;
+  // const [comments] = useContext(CommentContext);
+  // const [state, dispatch] = useContext(PostContext);
+  // let totalComments = comments.comments;
+  let totalComments = commentsFromStore;
   let commentsByPost = [];
 
-  function toDelete() {
+  /*function toDelete() {
     dispatch({
       type: 'DELETE_POST',
       payload: {
         idPost: props.postInfo.id
       }
     });
-  }
+  }*/
   
   totalComments.forEach(comment => {
     if (comment.idPost === props.postInfo.id) {
@@ -49,7 +56,7 @@ export default function CardPost(props) {
           <IconButton aria-label="picture" component="span" onClick={props.onClick}>
             <EditIcon />
           </IconButton>
-          <IconButton component="span" onClick={toDelete}>
+          <IconButton component="span" onClick={() => dispatch(deletePost(props.postInfo))}>
             <Delete />
           </IconButton>
         </div>

@@ -1,5 +1,5 @@
 import React, { useState, useContext } from 'react';
-import { makeStyles } from '@material-ui/core/styles'
+import { makeStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import DialogContent from '@material-ui/core/DialogContent';
@@ -8,23 +8,27 @@ import TextField from '@material-ui/core/TextField';
 import { InputAdornment, MenuItem } from '@material-ui/core';
 import LinkIcon from '@material-ui/icons/Link';
 import Button from '@material-ui/core/Button';
-import { PostContext } from '../context/post-context';
+// import { PostContext } from '../context/post-context';
+
+import { useDispatch } from 'react-redux';
+import { addNewPost, editPost } from '../redux/actions';
 
 export default function Modal(props) {
+  const dispatch = useDispatch();
+
   const classes = useStyles();
   const [ postTitle, setPostTitle ] = useState('');
   const [ postDescription, setPostDescription ] = useState('');
   const [ catego, setCategory ] = useState('travel');
   const [ postImg, setPostImg ] = useState('');
-  const [ state, dispatch ] = useContext(PostContext);
+  // const [ state, dispatch ] = useContext(PostContext);
 
   const [ isOpen, setIsOpen ] = useState(false);
 
   const newIdPost = props.totalPost.length + 1;
   let modalState = isOpen === false ? props.modalState : !isOpen;
   
-
-  function onSubmit() {
+  /*function onSubmit() {
     if (props.isEdit) {
       dispatch({
         type: 'EDIT_POST',
@@ -48,6 +52,31 @@ export default function Modal(props) {
         }
       });
     }
+  }*/
+
+  const onSubmit = () => {
+    if (props.isEdit) {
+      dispatch(editPost(
+        {
+          id: 2,
+          title: postTitle,
+          description: postDescription,
+          category: catego,
+          img: postImg
+        }
+      ));
+    } else {
+      dispatch(addNewPost(
+        {
+          id: newIdPost,
+          title: postTitle,
+          description: postDescription,
+          category: catego,
+          img: postImg
+        }
+      ));
+    }
+    handleCloseModal();
   }
 
   const handleCloseModal = () => {
@@ -69,7 +98,7 @@ export default function Modal(props) {
   const handleChangeImg = (event) => {
     setPostImg(event.target.value);
   };
-  console.log(modalState);
+  
   return (
     <div>
       <Dialog open={modalState} onClose={handleCloseModal} aria-labelledby="form-dialog-title" className={classes.modal}>

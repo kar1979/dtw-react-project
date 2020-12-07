@@ -1,0 +1,64 @@
+import {
+  ADD_POST,
+  EDIT_POST,
+  DELETE_POST
+} from '../types';
+
+const INITIAL_STATE = {
+  posts: [
+    { id: 1, title: 'A cold and starry night', description: 'Lorem ipsum', category: 'travel', img: 'https://wallpapercave.com/wp/wp2532971.jpg' },
+    { id: 2, title: 'At the beach in winter', description: 'Lorem ipsum', category: 'travel', img: 'https://wallpapercave.com/wp/JYodMo6.jpg' },
+    { id: 3, title: 'Knowing a new land ', description: 'Lorem ipsum', category: 'travel', img: 'https://wallpaperaccess.com/full/760289.jpg' },
+    { id: 4, title: 'Afternoon at Santorini', description: 'Lorem ipsum', category: 'travel', img: 'https://images.alphacoders.com/905/905325.jpg' },
+    { id: 5, title: 'Keepink healthy', description: 'Lorem ipsum', category: 'lifestyle', img: 'https://wallpaperaccess.com/full/139118.jpg' },
+    { id: 6, title: 'A good place for meeting', description: 'Lorem ipsum', category: 'business', img: 'https://wallpapercave.com/wp/wp1874155.jpg' },
+    { id: 7, title: 'Fast and complete', description: 'Lorem ipsum', category: 'food', img: 'https://img5.goodfon.com/wallpaper/nbig/e/37/interieur-restaurant-view.jpg' },
+    { id: 8, title: 'Something sweet', description: 'Lorem ipsum', category: 'food', img: 'https://c1.wallpaperflare.com/preview/552/308/997/restaurant-cake-food-coffee.jpg' },
+    { id: 9, title: 'A good place for meeting', description: 'Lorem ipsum', category: 'work', img: 'https://c0.wallpaperflare.com/preview/579/508/968/coffee-cup-cup-of-coffee-cafe.jpg' }
+  ]
+};
+
+function currentPostValueReducer( state = INITIAL_STATE, action ) {
+  switch (action.type) {
+    case ADD_POST:
+      let newPost = state.posts;
+      newPost.push({
+        id: action.payload.id,
+        title: action.payload.title,
+        description: action.payload.description,
+        category: action.payload.category,
+        img: action.payload.img
+      });
+      return { ...state, posts: newPost }
+
+    case EDIT_POST:
+      let tempPosts = state.posts;
+      console.log(tempPosts);
+      const postToEdit = tempPosts.findIndex(post => post.id === action.payload.id);
+      tempPosts.fill(
+        {
+          id: action.payload.id,
+          title: action.payload.title,
+          description: action.payload.description,
+          category: action.payload.category,
+          img: action.payload.img
+        },
+        postToEdit,
+        postToEdit + 1
+      );
+      console.log('New array: ', tempPosts );
+      return { ...state, posts: tempPosts }
+
+    case DELETE_POST:
+      let tempPost = [];
+      tempPost = state.posts.filter(
+        post => post.id !== action.payload.id
+      );
+      return { ...state, posts: tempPost }
+
+    default:
+      return { ...state }
+  }
+}
+
+export default currentPostValueReducer;
